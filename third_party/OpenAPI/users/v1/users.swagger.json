@@ -18,6 +18,7 @@
   "paths": {
     "/api/v1/user/{user.id}": {
       "patch": {
+        "summary": "Update a user.",
         "operationId": "UserService_UpdateUser",
         "responses": {
           "200": {
@@ -43,25 +44,37 @@
           },
           {
             "name": "user",
+            "description": "The user to update, along with its new fields.",
             "in": "body",
             "required": true,
             "schema": {
               "type": "object",
               "properties": {
                 "email": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "Email address."
                 },
                 "create_time": {
                   "type": "string",
                   "format": "date-time",
                   "description": "Output only.",
                   "readOnly": true
+                },
+                "first_name": {
+                  "type": "string",
+                  "description": "First name."
+                },
+                "last_name": {
+                  "type": "string",
+                  "description": "Last name."
                 }
-              }
+              },
+              "title": "The user to update, along with its new fields."
             }
           },
           {
             "name": "update_mask",
+            "description": "A field mask specifying which fields to update.",
             "in": "query",
             "required": false,
             "type": "string"
@@ -74,6 +87,7 @@
     },
     "/api/v1/users": {
       "get": {
+        "summary": "List users.",
         "operationId": "UserService_ListUsers",
         "responses": {
           "200": {
@@ -103,6 +117,7 @@
         ]
       },
       "post": {
+        "summary": "Create a new user.",
         "operationId": "UserService_AddUser",
         "responses": {
           "200": {
@@ -135,6 +150,7 @@
     },
     "/api/v1/users/{id}": {
       "get": {
+        "summary": "Get a user's details.",
         "operationId": "UserService_GetUser",
         "responses": {
           "200": {
@@ -153,6 +169,7 @@
         "parameters": [
           {
             "name": "id",
+            "description": "The ID to lookup the user by.",
             "in": "path",
             "required": true,
             "type": "string"
@@ -196,9 +213,11 @@
       "type": "object",
       "properties": {
         "email": {
-          "type": "string"
+          "type": "string",
+          "description": "The new user's email address."
         }
-      }
+      },
+      "description": "Request to create a new user."
     },
     "v1User": {
       "type": "object",
@@ -209,15 +228,25 @@
           "readOnly": true
         },
         "email": {
-          "type": "string"
+          "type": "string",
+          "description": "Email address."
         },
         "create_time": {
           "type": "string",
           "format": "date-time",
           "description": "Output only.",
           "readOnly": true
+        },
+        "first_name": {
+          "type": "string",
+          "description": "First name."
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Last name."
         }
-      }
+      },
+      "description": "A user."
     }
   }
 }

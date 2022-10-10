@@ -22,9 +22,13 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
+	// Create a new user.
 	AddUser(ctx context.Context, in *AddUserRequest, opts ...grpc.CallOption) (*User, error)
+	// Get a user's details.
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*User, error)
+	// List users.
 	ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (UserService_ListUsersClient, error)
+	// Update a user.
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error)
 }
 
@@ -99,9 +103,13 @@ func (c *userServiceClient) UpdateUser(ctx context.Context, in *UpdateUserReques
 // All implementations should embed UnimplementedUserServiceServer
 // for forward compatibility
 type UserServiceServer interface {
+	// Create a new user.
 	AddUser(context.Context, *AddUserRequest) (*User, error)
+	// Get a user's details.
 	GetUser(context.Context, *GetUserRequest) (*User, error)
+	// List users.
 	ListUsers(*ListUsersRequest, UserService_ListUsersServer) error
+	// Update a user.
 	UpdateUser(context.Context, *UpdateUserRequest) (*User, error)
 }
 

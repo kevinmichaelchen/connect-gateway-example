@@ -27,9 +27,13 @@ const (
 
 // UserServiceClient is a client for the users.v1.UserService service.
 type UserServiceClient interface {
+	// Create a new user.
 	AddUser(context.Context, *connect_go.Request[v1.AddUserRequest]) (*connect_go.Response[v1.User], error)
+	// Get a user's details.
 	GetUser(context.Context, *connect_go.Request[v1.GetUserRequest]) (*connect_go.Response[v1.User], error)
+	// List users.
 	ListUsers(context.Context, *connect_go.Request[v1.ListUsersRequest]) (*connect_go.ServerStreamForClient[v1.User], error)
+	// Update a user.
 	UpdateUser(context.Context, *connect_go.Request[v1.UpdateUserRequest]) (*connect_go.Response[v1.User], error)
 }
 
@@ -96,9 +100,13 @@ func (c *userServiceClient) UpdateUser(ctx context.Context, req *connect_go.Requ
 
 // UserServiceHandler is an implementation of the users.v1.UserService service.
 type UserServiceHandler interface {
+	// Create a new user.
 	AddUser(context.Context, *connect_go.Request[v1.AddUserRequest]) (*connect_go.Response[v1.User], error)
+	// Get a user's details.
 	GetUser(context.Context, *connect_go.Request[v1.GetUserRequest]) (*connect_go.Response[v1.User], error)
+	// List users.
 	ListUsers(context.Context, *connect_go.Request[v1.ListUsersRequest], *connect_go.ServerStream[v1.User]) error
+	// Update a user.
 	UpdateUser(context.Context, *connect_go.Request[v1.UpdateUserRequest]) (*connect_go.Response[v1.User], error)
 }
 
