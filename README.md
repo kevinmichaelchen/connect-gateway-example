@@ -3,7 +3,7 @@
 [Connect](https://buf.build/blog/connect-a-better-grpc) is a better gRPC.
 It's debuggable and usable from the browser and with curl.
 
-[gRPC-Gateway](https://github.com/grpc-ecosystem/grpc-gateway) was a project
+[gRPC-Gateway](https://grpc-ecosystem.github.io/grpc-gateway/) was a project
 designed to seamlessly convert gRPC APIs to REST APIs.
 
 ## Getting started
