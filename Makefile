@@ -1,16 +1,14 @@
-BUF_VERSION:=1.4.0
-
-install:
-	go install github.com/bufbuild/buf/cmd/buf@v$(BUF_VERSION)
+update:
+	@docker run --rm --volume "$(shell pwd):/workspace" --workdir /workspace bufbuild/buf mod update proto
 
 format:
-	@buf format -w
+	@docker run --rm --volume "$(shell pwd):/workspace" --workdir /workspace bufbuild/buf format -w
 
 generate:
-	@buf generate
+	@docker run --rm --volume "$(shell pwd):/workspace" --workdir /workspace bufbuild/buf generate
 
 lint:
-	@buf lint
-	@buf breaking --against 'https://github.com/johanbrandhorst/connect-gateway-example.git#branch=master'
+	@docker run --rm --volume "$(shell pwd):/workspace" --workdir /workspace bufbuild/buf lint
+	@docker run --rm --volume "$(shell pwd):/workspace" --workdir /workspace bufbuild/buf breaking --against 'https://github.com/johanbrandhorst/connect-gateway-example.git#branch=master'
 
-.PHONY: install format generate lint
+.PHONY: update format generate lint
