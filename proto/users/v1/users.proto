@@ -2,27 +2,28 @@ syntax = "proto3";
 
 package users.v1;
 
-import "google/protobuf/timestamp.proto";
-import "google/protobuf/field_mask.proto";
 import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
 
+// A service to manage and perform CRUD on users.
 service UserService {
+  // Create a new user.
   rpc AddUser(AddUserRequest) returns (User) {
     option (google.api.http) = {
       post: "/api/v1/users"
       body: "*"
     };
   }
+  // Get a user's details.
   rpc GetUser(GetUserRequest) returns (User) {
-    option (google.api.http) = {
-      get: "/api/v1/users/{id}"
-    };
+    option (google.api.http) = {get: "/api/v1/users/{id}"};
   }
+  // List users.
   rpc ListUsers(ListUsersRequest) returns (stream User) {
-    option (google.api.http) = {
-      get: "/api/v1/users"
-    };
+    option (google.api.http) = {get: "/api/v1/users"};
   }
+  // Update a user.
   rpc UpdateUser(UpdateUserRequest) returns (User) {
     option (google.api.http) = {
       patch: "/api/v1/user/{user.id}"
@@ -31,25 +32,39 @@ service UserService {
   }
 }
 
+// Request to create a new user.
 message AddUserRequest {
+  // The new user's email address.
   string email = 1;
 }
 
+// Request to get an existing user.
 message GetUserRequest {
+  // The ID to lookup the user by.
   string id = 1;
 }
 
+// Request to list existing users.
 message ListUsersRequest {}
 
+// Request to update an existing user.
 message UpdateUserRequest {
+  // The user to update, along with its new fields.
   User user = 1;
+  // A field mask specifying which fields to update.
   google.protobuf.FieldMask update_mask = 2;
 }
 
+// A user.
 message User {
   // Id uniquely identifies a user. Output only.
   string id = 1;
+  // Email address.
   string email = 2;
   // Output only.
   google.protobuf.Timestamp create_time = 3;
+  // First name.
+  string first_name = 4;
+  // Last name.
+  string last_name = 5;
 }
