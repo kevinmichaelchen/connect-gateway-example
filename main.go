@@ -3,8 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
+	"google.golang.org/grpc/credentials/insecure"
+	"io"
 	"io/fs"
-	"io/ioutil"
 	"log"
 	"mime"
 	"net/http"
@@ -31,7 +32,7 @@ func main() {
 // getOpenAPIHandler serves an OpenAPI UI.
 // Adapted from https://github.com/philips/grpc-gateway-example/blob/a269bcb5931ca92be0ceae6130ac27ae89582ecc/cmd/serve.go#L63
 func getOpenAPIHandler() http.Handler {
-	mime.AddExtensionType(".svg", "image/svg+xml")
+	_ = mime.AddExtensionType(".svg", "image/svg+xml")
 	// Use subdirectory in embedded files
 	subFS, err := fs.Sub(third_party.OpenAPI, "OpenAPI")
 	if err != nil {
@@ -41,15 +42,15 @@ func getOpenAPIHandler() http.Handler {
 }
 
 func run() error {
-	log := grpclog.NewLoggerV2(os.Stdout, ioutil.Discard, ioutil.Discard)
-	grpclog.SetLoggerV2(log)
+	logger := grpclog.NewLoggerV2(os.Stdout, io.Discard, io.Discard)
+	grpclog.SetLoggerV2(logger)
 
 	addr := "0.0.0.0:8080"
 	// Note: this will succeed asynchronously, once we've started the server below.
 	conn, err := grpc.DialContext(
 		context.Background(),
 		"dns:///"+addr,
-		grpc.WithInsecure(),
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
 	if err != nil {
 		return fmt.Errorf("failed to dial server: %w", err)
@@ -71,11 +72,11 @@ func run() error {
 	mux.Handle("/", getOpenAPIHandler())
 	mux.Handle(usersv1connect.NewUserServiceHandler(server.New()))
 	mux.Handle("/api/v1/", gwmux)
-	server := &http.Server{
+	s := &http.Server{
 		Addr:    addr,
 		Handler: h2c.NewHandler(mux, &http2.Server{}),
 	}
 
-	log.Info("Serving Connect, gRPC-Gateway and OpenAPI Documentation on http://", addr)
-	return server.ListenAndServe()
+	logger.Info("Serving Connect, gRPC-Gateway and OpenAPI Documentation on http://", addr)
+	return s.ListenAndServe()
 }
