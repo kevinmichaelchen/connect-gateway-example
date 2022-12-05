@@ -23,7 +23,11 @@ go run main.go
 ### Hit the Connect API
 Using [HTTPie](https://httpie.io/):
 ```bash
-http POST localhost:8080/users.v1.UserService/ListUsers "Content-Type":application/json
+# Add a user
+http -v localhost:8080/users.v1.UserService/AddUser email="foo@bar.com"
+
+# List users
+http -v POST localhost:8080/users.v1.UserService/ListUsers "Content-Type":application/json Accept:"application/json, */*;q=0.5"
 ```
 
 ### Hit the REST API
