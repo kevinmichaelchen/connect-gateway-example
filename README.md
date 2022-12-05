@@ -8,6 +8,11 @@ designed to seamlessly convert gRPC APIs to REST APIs.
 
 ## Getting started
 
+### Making proto changes
+```shell
+make buf-mod-update buf-lint buf-gen
+```
+
 ### Run the server
 Run the Go server with:
 ```bash
