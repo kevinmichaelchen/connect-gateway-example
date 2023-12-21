@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/bufbuild/connect-go v1.3.1
-	github.com/gofrs/uuid v4.3.1+incompatible
+	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.14.0
 	golang.org/x/net v0.2.0
 	google.golang.org/genproto v0.0.0-20221202195650-67e5cbc046fd
